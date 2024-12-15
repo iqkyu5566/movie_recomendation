@@ -1,52 +1,51 @@
-# Laporan Proyek Machine Learning - Nama Anda
+# Laporan Proyek Machine Learning - Ilham Julian Efendi
 
 ## Project Overview
 
-Pada bagian ini, Kamu perlu menuliskan latar belakang yang relevan dengan proyek yang diangkat.
+Rekomendasi film merupakan salah satu masalah yang sering ditemui dalam platform streaming atau platform digital lainnya. Seiring dengan berkembangnya jumlah konten yang tersedia, sulit bagi pengguna untuk memilih film yang sesuai dengan preferensi mereka. Sistem rekomendasi yang tepat akan memudahkan pengguna dalam menemukan konten yang sesuai dengan minat mereka.
 
-**Rubrik/Kriteria Tambahan (Opsional)**:
-- Jelaskan mengapa proyek ini penting untuk diselesaikan.
-- Menyertakan hasil riset terkait atau referensi. Referensi yang diberikan harus berasal dari sumber yang kredibel dan author yang jelas.
-  
-  Format Referensi: [Judul Referensi](https://scholar.google.com/) 
+Proyek ini bertujuan untuk mengembangkan sistem rekomendasi berbasis pembelajaran mesin, dengan menggunakan data film dan model cosine similarity untuk memberikan rekomendasi film yang relevan. Dengan memanfaatkan teknik analisis data, proyek ini berfokus pada pengembangan model yang efisien dalam memberikan rekomendasi kepada pengguna.
+
+Rekomendasi film berbasis machine learning dapat meningkatkan pengalaman pengguna dan meningkatkan engagement di platform yang menyediakan konten film.
+
+Referensi:
+
+Recommender Systems: Collaborative Filtering Based Recommendation System: A survey (https://www.researchgate.net/profile/Ramachandram-Sirandas/publication/267261428_Collaborative_Filtering_Based_Recommendation_System_A_survey/links/549ac4af0cf2fedbc30e3254/Collaborative-Filtering-Based-Recommendation-System-A-survey.pdf)
 
 ## Business Understanding
 
-Pada bagian ini, Anda perlu menjelaskan proses klarifikasi masalah.
+Pada bagian ini, kita akan mengklarifikasi masalah yang ingin diselesaikan melalui proyek ini.
 
 Bagian laporan ini mencakup:
 
 ### Problem Statements
 
-Menjelaskan pernyataan masalah:
-- Pernyataan Masalah 1
-- Pernyataan Masalah 2
-- Pernyataan Masalah n
+- Pernyataan Masalah 1: Pengguna mengalami kesulitan dalam menemukan film yang sesuai dengan   preferensi mereka di tengah banyaknya pilihan yang tersedia.
+- Pernyataan Masalah 2: Platform streaming membutuhkan sistem rekomendasi yang dapat meningkatkan kepuasan pengguna dan mengurangi tingkat churn.
 
 ### Goals
 
-Menjelaskan tujuan proyek yang menjawab pernyataan masalah:
-- Jawaban pernyataan masalah 1
-- Jawaban pernyataan masalah 2
-- Jawaban pernyataan masalah n
+1. Tujuan 1: Mengembangkan sistem rekomendasi film yang dapat memberikan rekomendasi film yang relevan berdasarkan kesamaan film.
+2. Tujuan 2: Meningkatkan pengalaman pengguna dengan memberikan saran film yang akurat dan meningkatkan waktu yang dihabiskan pengguna pada platform.
 
-Semua poin di atas harus diuraikan dengan jelas. Anda bebas menuliskan berapa pernyataan masalah dan juga goals yang diinginkan.
+### Solution statements
+    Untuk mencapai tujuan di atas, dua pendekatan solusi yang dapat digunakan adalah:
 
-**Rubrik/Kriteria Tambahan (Opsional)**:
-- Menambahkan bagian “Solution Approach” yang menguraikan cara untuk meraih goals. Bagian ini dibuat dengan ketentuan sebagai berikut: 
-
-    ### Solution statements
-    - Mengajukan 2 atau lebih solution approach (algoritma atau pendekatan sistem rekomendasi).
+      - Model berbasis Content-Based Filtering:
+      Menggunakan cosine similarity antara fitur film (seperti genre, deskripsi, dll.) untuk memberikan rekomendasi berdasarkan kesamaan konten.
+      - Model berbasis Collaborative Filtering:
+      Memanfaatkan data interaksi pengguna (rating atau preferensi) untuk merekomendasikan film yang disukai oleh pengguna dengan preferensi serupa.
 
 ## Data Understanding
-Paragraf awal bagian ini menjelaskan informasi mengenai jumlah data, kondisi data, dan informasi mengenai data yang digunakan. Sertakan juga sumber atau tautan untuk mengunduh dataset. Contoh: [UCI Machine Learning Repository](https://archive.ics.uci.edu/ml/datasets/Restaurant+%26+consumer+data).
+Data yang digunakan dalam proyek ini berasal dari dataset film yang tersedia di MovieLens Dataset (https://www.kaggle.com/datasets/parasharmanas/movie-recommendation-system?select=ratings.csv). Dataset ini mencakup berbagai informasi mengenai film, termasuk judul, genre, deskripsi, dan rating dari pengguna.
 
-Selanjutnya, uraikanlah seluruh variabel atau fitur pada data. Sebagai contoh:  
+Beberapa fitur pada dataset ini meliputi:
 
-Variabel-variabel pada Restaurant UCI dataset adalah sebagai berikut:
-- accepts : merupakan jenis pembayaran yang diterima pada restoran tertentu.
-- cuisine : merupakan jenis masakan yang disajikan pada restoran.
-- dst
+title: Judul film.
+genres: Kategori genre film, seperti action, drama, comedy, dll.
+description: Deskripsi singkat tentang film.
+user_ratings: Rating yang diberikan oleh pengguna terhadap film.
+Pada tahap awal, kita akan memeriksa data untuk memastikan kualitas dan konsistensi dari dataset tersebut. Beberapa teknik visualisasi data dan analisis eksploratif akan digunakan untuk memahami distribusi data dan korelasi antar fitur.
 
 **Rubrik/Kriteria Tambahan (Opsional)**:
 - Melakukan beberapa tahapan yang diperlukan untuk memahami data, contohnya teknik visualisasi data beserta insight atau exploratory data analysis.
