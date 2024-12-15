@@ -71,7 +71,7 @@ Berikut adalah beberapa pertanyaan yang akan kita jawab dengan menggunakan EDA u
 
 
 
-Dengan EDA, kita bisa mengeksplorasi berbagai pola yang muncul dalam dataset film yang diberikan oleh pengguna, serta menganalisis preferensi dan tren terkait restoran.
+Dengan EDA, kita bisa mengeksplorasi berbagai pola yang muncul dalam dataset film yang diberikan oleh pengguna, serta menganalisis preferensi dan tren terkait film.
 
 *Kita akan mengeksplorasi data sesuai dengan pertanyaan diatas.*
 
@@ -244,7 +244,7 @@ Sebagai contoh, film "Smile (2009)" dan "Necromancer (1988)" memiliki tingkat ke
 Secara keseluruhan, matriks ini memungkinkan kita untuk mengidentifikasi pasangan-pasangan film yang memiliki kemiripan berdasarkan kriteria yang digunakan dalam perhitungan similarity, yang dapat digunakan untuk membuat sistem rekomendasi film yang lebih akurat.
 """
 
-def movie_recommendations(title, similarity_data=cosine_sim_df, items=data[['title', 'genres']], k=10):
+def movie_recommendations(title, similarity_data, items, k=50):
     # Mencari indeks film yang sesuai dengan judul yang diberikan
     idx = similarity_data.index.get_loc(title)
 
@@ -257,8 +257,12 @@ def movie_recommendations(title, similarity_data=cosine_sim_df, items=data[['tit
     # Menampilkan hasil rekomendasi, dengan menghapus film yang sama dengan input (title)
     recommendations = similarity_data.index[similar_indexes]
 
-    # Menggabungkan hasil rekomendasi dengan informasi film
-    recommended_movies = items[items['title'].isin(recommendations)].head(k)
+    # Menyaring film berdasarkan genre yang sama dengan film yang dicari
+    movie_genre = items[items['title'] == title]['genres'].values[0]
+    recommended_movies = items[items['genres'] == movie_genre]
+
+    # Hanya ambil k film teratas yang memiliki genre yang sama
+    recommended_movies = recommended_movies.head(k)
 
     return recommended_movies
 
@@ -267,3 +271,42 @@ recommended_movies = movie_recommendations('Smile (2009)', cosine_sim_df, data[[
 
 # Menampilkan rekomendasi
 print(recommended_movies)
+
+"""**EVALUATION**"""
+
+# Misalnya, kita ingin mendapatkan ground truth dari film yang memiliki genre yang sama
+genre = 'Horror|Thriller'  # Misalnya genre yang relevan
+ground_truth = data[data['genres'] == genre]['title'].tolist()
+
+print(f"Ground truth for genre {genre}: {ground_truth}")
+
+# Mendapatkan rekomendasi untuk film tertentu (misalnya 'Smile (2009)')
+recommended_movies = movie_recommendations('Smile (2009)', cosine_sim_df, data[['title', 'genres']], k=10)
+
+# Ambil daftar judul film dari hasil rekomendasi
+recommended_titles = recommended_movies['title'].tolist()
+
+# Tampilkan rekomendasi
+print("Recommended titles:", recommended_titles)
+
+# Menghitung True Positives (TP), False Positives (FP), False Negatives (FN)
+tp = len(set(ground_truth) & set(recommended_titles))  # Intersection antara ground_truth dan recommended_titles
+fp = len(set(recommended_titles) - set(ground_truth))  # Film yang direkomendasikan tapi tidak relevan
+fn = len(set(ground_truth) - set(recommended_titles))  # Film relevan yang tidak direkomendasikan
+
+# Menghitung Precision dan Recall
+precision = tp / (tp + fp) if tp + fp > 0 else 0
+recall = tp / (tp + fn) if tp + fn > 0 else 0
+
+# Menampilkan hasil Precision dan Recall
+print(f"Precision: {precision:.2f}")
+print(f"Recall: {recall:.2f}")
+
+from sklearn.metrics import confusion_matrix
+
+# Membuat label biner untuk ground truth dan recommended titles
+y_true = [1 if movie in ground_truth else 0 for movie in recommended_titles]
+y_pred = [1] * len(recommended_titles)  # Semua film yang direkomendasikan dianggap relevan (1)
+
+# Menampilkan confusion matrix
+print(confusion_matrix(y_true, y_pred))
